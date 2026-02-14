@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Geet 🎉</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  padding:0;
+  background: radial-gradient(circle at top,#2a003f,#000);
+  overflow:hidden;
+  font-family:'Poppins',sans-serif;
+  text-align:center;
+  color:white;
+}
+
+h1{
+  font-family:'Pacifico',cursive;
+  font-size:3rem;
+  margin-top:30px;
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow{
+  from{text-shadow:0 0 10px #ff66cc;}
+  to{text-shadow:0 0 30px #ff99ff;}
+}
+
+#countdown{
+  font-size:2rem;
+  margin-top:20px;
+}
+
+button{
+  padding:15px 30px;
+  border:none;
+  border-radius:40px;
+  background:#ff4081;
+  color:white;
+  font-size:1.2rem;
+  cursor:pointer;
+  margin-top:30px;
+  transition:0.3s;
+}
+
+button:hover{
+  transform:scale(1.1);
+}
+
+.cake{
+  margin:40px auto;
+  width:220px;
+  position:relative;
+}
+
+.layer{
+  height:60px;
+  border-radius:12px;
+}
+
+.layer1{background:#ff6f91;}
+.layer2{background:#ff9671;margin-top:-15px;}
+.layer3{background:#ffc75f;margin-top:-15px;}
+
+.candle{
+  width:10px;
+  height:40px;
+  background:white;
+  position:absolute;
+  top:-40px;
+  left:50%;
+  transform:translateX(-50%);
+  border-radius:3px;
+}
+
+.flame{
+  width:12px;
+  height:18px;
+  background:orange;
+  border-radius:50%;
+  position:absolute;
+  top:-18px;
+  left:50%;
+  transform:translateX(-50%);
+  animation: flicker 0.3s infinite alternate;
+}
+
+@keyframes flicker{
+  from{transform:translateX(-50%) scale(1);}
+  to{transform:translateX(-50%) scale(1.3);}
+}
+
+.particle{
+  position:absolute;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  pointer-events:none;
+}
+
+.wave{
+  position:absolute;
+  border:2px solid white;
+  border-radius:50%;
+  animation: expand 1.2s forwards;
+}
+
+@keyframes expand{
+  from{width:0;height:0;opacity:1;}
+  to{width:600px;height:600px;opacity:0;}
+}
+
+/* END SCREEN */
+#endScreen{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:linear-gradient(135deg,#000,#1a0033);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
+  transition:1.5s;
+  text-align:center;
+  padding:20px;
+}
+
+#endScreen.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+#endScreen h2{
+  font-family:'Pacifico',cursive;
+  font-size:3rem;
+  animation: glow 2s infinite alternate;
+}
+
+#endScreen p{
+  max-width:600px;
+  margin-top:20px;
+  font-size:1.2rem;
+  line-height:1.6;
+}
+
+.signature{
+  margin-top:30px;
+  font-family:'Pacifico',cursive;
+  font-size:1.5rem;
+}
+
+@media(max-width:600px){
+  h1{font-size:2rem;}
+  #endScreen h2{font-size:2rem;}
+}
+</style>
+</head>
+
+<body>
+
+<h1>Happy Birthday Geet 🎉</h1>
+<div id="countdown">Get Ready...</div>
+
+<div class="cake">
+  <div class="candle">
+    <div class="flame" id="flame"></div>
+  </div>
+  <div class="layer layer3"></div>
+  <div class="layer layer2"></div>
+  <div class="layer layer1"></div>
+</div>
+
+<button onclick="blow()">Blow the Candles 🎂</button>
+
+<!-- END SCREEN -->
+<div id="endScreen">
+  <h2>Happy Birthday Geet 🎉</h2>
+  <p>
+    Bro, you’re genuinely one of the best things that happened to me.  
+    Thank you for every laugh, every stupid joke, every memory.  
+    I’m lucky to call you my best friend.  
+    This year is yours. Go dominate it.
+  </p>
+  <div class="signature">
+    — Vansh ❤️
+  </div>
+</div>
+
+<script>
+let count = 3;
+let countdownEl = document.getElementById("countdown");
+
+let interval = setInterval(()=>{
+  countdownEl.innerHTML = count;
+  count--;
+  if(count < 0){
+    clearInterval(interval);
+    countdownEl.innerHTML = "Make a Wish ✨";
+  }
+},1000);
+
+function blow(){
+  let flame = document.getElementById("flame");
+  flame.style.display="none";
+
+  for(let i=0;i<180;i++){
+    let particle = document.createElement("div");
+    particle.classList.add("particle");
+    document.body.appendChild(particle);
+
+    let x = window.innerWidth/2;
+    let y = window.innerHeight/2;
+
+    particle.style.left=x+"px";
+    particle.style.top=y+"px";
+    particle.style.background="hsl("+Math.random()*360+",100%,50%)";
+
+    let angle=Math.random()*2*Math.PI;
+    let distance=Math.random()*350;
+
+    let destX = x + distance*Math.cos(angle);
+    let destY = y + distance*Math.sin(angle);
+
+    particle.animate([
+      {transform:"translate(0,0)",opacity:1},
+      {transform:`translate(${destX-x}px,${destY-y}px)`,opacity:0}
+    ],{
+      duration:1800,
+      easing:"ease-out"
+    });
+
+    setTimeout(()=>particle.remove(),1800);
+  }
+
+  for(let i=0;i<4;i++){
+    let wave=document.createElement("div");
+    wave.classList.add("wave");
+    wave.style.left=(window.innerWidth/2-300)+"px";
+    wave.style.top=(window.innerHeight/2-300)+"px";
+    document.body.appendChild(wave);
+    setTimeout(()=>wave.remove(),1200);
+  }
+
+  setTimeout(()=>{
+    document.getElementById("endScreen").classList.add("show");
+  },1800);
+}
+</script>
+
+</body>
+</html>
